@@ -24,7 +24,7 @@ A tiny Manifest V3 extension that shows **6 videos per row** instead of the defa
 
 | Before (3 per row) | After (6 per row) |
 |---|---|
-| <img src="screens/store-before-1280x800.png" width="800"> | <img src="screens/store-after-1280x800.png" width="800"> |
+| <img src="screens/01-before.png" width="800" alt="Video grid with three thumbnails per row"> | <img src="screens/02-after.png" width="800" alt="Video grid with six thumbnails per row"> |
 
 ### Features
 
@@ -87,7 +87,7 @@ Not in this version — the value is fixed at 6. You can change it in `content.c
 <details>
 <summary><b>Does it work everywhere on the site?</b></summary>
 
-It affects grid layouts that use the rich-grid variable: home feed, subscriptions and channel "Videos" pages. Search results and short-video shelves use different layouts and are not affected.
+It affects grid layouts that use the rich-grid variable: home feed, subscriptions and channel “Videos” pages. Search results and short-video shelves use different layouts and are not affected.
 </details>
 
 ### Known limitations
@@ -120,13 +120,17 @@ MIT — see [LICENSE](LICENSE).
 <a id="russian"></a>
 ## Русский
 
+> ⚠️ **Не связано с YouTube или Google.** Независимое неофициальное расширение; названия и товарные знаки принадлежат их владельцам.
+
+### Что это
+
 Крошечное расширение (Manifest V3), которое показывает **6 видео в ряду** вместо стандартных 3. Оно не переписывает DOM, а подменяет одну CSS-переменную, которой пользуется сама вёрстка сайта — дальше встроенная математика раскладки справляется сама (без потери производительности).
 
 ### Скриншоты
 
 | Было (3 в ряду) | Стало (6 в ряду) |
 |---|---|
-| <img src="screens/store-before-1280x800.png" width="800"> | <img src="screens/store-after-1280x800.png" width="800"> |
+| <img src="screens/01-before.png" width="800" alt="Сетка видео: три превью в ряду"> | <img src="screens/02-after.png" width="800" alt="Сетка видео: шесть превью в ряду"> |
 
 ### Возможности
 
@@ -140,18 +144,22 @@ MIT — see [LICENSE](LICENSE).
 
 ### Как это работает
 
+Сайт считает ширину элемента сетки своей формулой:
+
 ```css
-/* так сайт считает ширину элемента */
 width: calc(100% / var(--ytd-rich-grid-items-per-row) - var(--ytd-rich-grid-item-margin));
 ```
 
+Расширение добавляет класс на `<html>` и переопределяет переменную:
+
 ```css
-/* что делает расширение */
 html.six-column-grid ytd-rich-grid-renderer {
   --ytd-rich-grid-items-per-row: 6 !important;
   --ytd-rich-grid-mini-per-row: 6 !important;
 }
 ```
+
+$$\text{ширина элемента} = \frac{100\%}{6} - \text{отступ}$$
 
 ### Установка (распакованное расширение)
 
@@ -166,6 +174,48 @@ html.six-column-grid ytd-rich-grid-renderer {
 - Данные не собираются, телеметрии и аналитики нет.
 - **Сетевых запросов нет вообще.**
 - Единственное разрешение `storage` — только для хранения состояния вкл/выкл.
+- Удалённого кода и eval нет.
+
+### FAQ
+
+<details>
+<summary><b>После установки ничего не изменилось — почему?</b></summary>
+
+Перезагрузите вкладку: content-скрипты не срабатывают на страницах, открытых до установки или обновления расширения.
+</details>
+
+<details>
+<summary><b>Можно сделать 4 или 5 в ряду?</b></summary>
+
+В этой версии нет — значение фиксировано на 6. Его можно поменять в `content.css` (`--ytd-rich-grid-items-per-row`), если загружать расширение распакованным.
+</details>
+
+<details>
+<summary><b>Работает ли везде на сайте?</b></summary>
+
+Действует на сетках, которые используют переменную rich-grid: главная, подписки и вкладка «Видео» на каналах. Поиск и полки с Shorts устроены иначе и не затрагиваются.
+</details>
+
+### Известные ограничения
+
+<details>
+<summary><b>Что стоит знать</b></summary>
+
+- Если сайт сменит разметку или имена переменных, подмена перестанет работать до обновления расширения.
+- Настроек по сайтам и страницам нет — один глобальный переключатель вкл/выкл.
+- Рекламные и промо-блоки внутри сетки не изменяются.
+</details>
+
+### Разработка
+
+Без сборки и зависимостей.
+
+```
+manifest.json   манифест MV3
+content.js      добавляет и убирает класс, следит за переключением
+content.css     переопределение CSS-переменной
+popup.html/js   переключатель вкл/выкл (chrome.storage)
+```
 
 ### Лицензия
 
