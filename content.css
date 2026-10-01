@@ -1,0 +1,4 @@
+html.yt-rows-6 ytd-rich-grid-renderer {
+  --ytd-rich-grid-items-per-row: 6 !important;
+  --ytd-rich-grid-mini-per-row: 6 !important;
+}
