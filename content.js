@@ -1,4 +1,4 @@
-const CLASS = "yt-rows-6";
+const CLASS = "six-column-grid";
 
 function apply(on) {
   document.documentElement.classList.toggle(CLASS, on);

@@ -3,12 +3,20 @@
 <head>
 <meta charset="utf-8">
 <style>
-  body { font-family: system-ui, sans-serif; padding: 12px; min-width: 180px; }
+  body { font: 13px/1.4 system-ui, sans-serif; padding: 12px; width: 210px; margin: 0; }
+  h1 { font-size: 13px; margin: 0 0 8px; font-weight: 600; }
   label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+  .hint { color: #6b7280; font-size: 11px; margin: 8px 0 0; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1c1f26; color: #e6e6e6; }
+    .hint { color: #9ca3af; }
+  }
 </style>
 </head>
 <body>
-<label><input type="checkbox" id="enabled"> 6 per row</label>
+<h1>6-Column Grid</h1>
+<label><input type="checkbox" id="enabled"> 6 thumbnails per row</label>
+<p class="hint">Reload an open tab after enabling or updating.</p>
 <script src="popup.js"></script>
 </body>
 </html>
